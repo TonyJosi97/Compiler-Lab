@@ -1,4 +1,5 @@
 #include <stdio.h>
+
 /*
 void getEpsilon(int whichState, int size, int col, char arr[size][col])
 {
@@ -25,11 +26,8 @@ void getEpsilon(int whichState, int size, int col, char arr[size][col])
 void parseEpsilon(int ch, int ipSize, int col, char states[ipSize][col])
 {
     int start = 0, k = 0, flag;
-
     start = ch;
-
     printf("%c -> %c", states[ch][0], states[ch][0]);
-
     while (states[start][1] != '-')
     {
         printf("%c", states[start][1]);
@@ -64,7 +62,6 @@ int main(int argc, char const *argv[])
         scanf("%s", &ipSymbols[i]);
 
     char states[ipSize][noIpSymbols + 1];
-
     for (i = 0; i < ipSize; i++)
     {
         printf("State %d: ", i + 1);
@@ -78,13 +75,11 @@ int main(int argc, char const *argv[])
     }
 
     //getEpsilon(0, ipSize, noIpSymbols + 1, states);
-
-
+    
     char ch;
     int start = 0, k = 0, newStart, flag;
 
     printf("\nCLOSURE: \n");
-
     for(k = 0; k < ipSize; k++)
     {
         parseEpsilon(k, ipSize, noIpSymbols + 1, states);
