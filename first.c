@@ -1,5 +1,26 @@
 #include <stdio.h>
 
+void getEpsilon(int whichState, int size, int col, char arr[size][col])
+{
+    int k = 0, newWhichState;
+    printf("%c", arr[whichState][1]);
+    
+    if (arr[whichState][1] != '-')
+    {
+        printf("%c", arr[whichState][1]);
+        for (k = 0; k < size; k++)
+        {
+            if (arr[k][0] == arr[whichState][1])
+            {
+                newWhichState = k;
+                break;
+            }
+        }
+        getEpsilon(newWhichState, size, col, arr);
+    }
+    
+}
+
 int main(int argc, char const *argv[])
 {
     int ipSize, noIpSymbols;
@@ -28,9 +49,7 @@ int main(int argc, char const *argv[])
         }
     }
 
-
-    printf("*%s\n", states[2]);
-    
+    getEpsilon(0, ipSize, noIpSymbols + 1, states);
 
     return 0;
 }
