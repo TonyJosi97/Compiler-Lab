@@ -1,88 +1,57 @@
 #include <stdio.h>
+#include <string.h>
 
-/*
-void getEpsilon(int whichState, int size, int col, char arr[size][col])
+void closureParse(char state, int size, char arr[size][8])
 {
-    int k = 0, newWhichState;
-    printf("%c", arr[whichState][1]);
-    
-    if (arr[whichState][1] != '-')
+    int i = 0, j = 0;
+    for(int i = 0; i < size; i++)
     {
-        printf("%c", arr[whichState][1]);
-        for (k = 0; k < size; k++)
+        if(arr[i][0] == state && arr[i][1] == '_')
         {
-            if (arr[k][0] == arr[whichState][1])
+            for(j = 2; j < strlen(arr[i]); j++)
             {
-                newWhichState = k;
-                break;
+                printf("%c", arr[i][j]);
+                closureParse(arr[i][j], size, arr);
             }
         }
-        getEpsilon(newWhichState, size, col, arr);
     }
-    
-}
-*/
-
-void parseEpsilon(int ch, int ipSize, int col, char states[ipSize][col])
-{
-    int start = 0, k = 0, flag;
-    start = ch;
-    printf("%c -> %c", states[ch][0], states[ch][0]);
-    while (states[start][1] != '-')
-    {
-        printf("%c", states[start][1]);
-        flag = 0;
-        for (k = 0; k < ipSize; k++)
-        {
-            if (states[k][0] == states[start][1])
-            {
-                flag = 1;
-                start = k;
-                break;
-            }
-        }
-        if (flag == 0)
-            break;
-    }
-    printf("\n---------------------\n");
 }
 
 int main(int argc, char const *argv[])
 {
-    int ipSize, noIpSymbols;
-    printf("Enter the number of states: ");
-    scanf("%d", &ipSize);
-    printf("Enter the number of Input Symbols: ");
-    scanf("%d", &noIpSymbols);
-    int i, j;
-    char ipSymbols[noIpSymbols];
-
-    printf("Enter the input symbols( _ for Epsilon):\n");
-    for (i = 0; i < noIpSymbols; i++)
-        scanf("%s", &ipSymbols[i]);
-
-    char states[ipSize][noIpSymbols + 1];
-    for (i = 0; i < ipSize; i++)
+    int numOfStates, numOfTrans;
+    int i = 0, j = 0;
+    printf("Enter the number of States: ");
+    scanf("%d", &numOfStates);
+    char states[numOfStates];
+    printf("\nEnter the states: \n");
+    for (i = 0; i < numOfStates; i++)
     {
-        printf("State %d: ", i + 1);
-        scanf("%s", &states[i][0]);
-
-        for (j = 0; j < noIpSymbols; j++)
-        {
-            printf("State %d on Input %c (- if empty): ", i + 1, ipSymbols[j]);
-            scanf("%s", &states[i][j + 1]);
-        }
+        scanf(" %c", &states[i]);
     }
-
-    //getEpsilon(0, ipSize, noIpSymbols + 1, states);
-    
-    char ch;
-    int start = 0, k = 0, newStart, flag;
-
-    printf("\nCLOSURE: \n");
-    for(k = 0; k < ipSize; k++)
+    printf("\nEnter the number of Transitions: ");
+    scanf("%d", &numOfTrans);
+    char trans[numOfTrans][8];
+    for (i = 0; i < numOfTrans; i++)
     {
-        parseEpsilon(k, ipSize, noIpSymbols + 1, states);
+        char temp[10];
+        printf("\nEnter the State %d: ", i + 1);
+        scanf(" %c", &trans[i][0]);
+        printf("\n%d. %c on input symbol('_' for Epsilon): ", i + 1, trans[i][0]);
+        scanf(" %c", &trans[i][1]);
+        printf("\n%d. %c on input symbol %c gives: ", i + 1, trans[i][0], trans[i][1]);
+        scanf("%s", temp);
+        for (j = 0; j < strlen(temp) && j < 6; j++)
+            trans[i][j + 2] = temp[j];
+    }
+   
+    printf("\n\n**CLOSURE**");
+    printf("\n--------------------------\n");
+    for (i = 0; i < numOfStates; i++)
+    {
+        printf("%c -> %c", states[i], states[i]);
+        closureParse(states[i], numOfTrans, trans);
+        printf("\n--------------------------\n");
     }
 
     return 0;
